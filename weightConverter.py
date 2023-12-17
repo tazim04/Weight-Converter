@@ -11,16 +11,25 @@ def isNum(num):
         return False
 
 def convertToG(num):
+    global warningUp
     if (isNum(num) == False):
+        warningUp = True
         warning.place(relx=0.5, y=float(gui_height)-170, anchor="center")
         entry2.delete(0, len(entry2.get()))
         entry2.insert(0, "Are you dumb?")
         # print("warning")
     else:
+        if warningUp == True:
+            hideWarning()
         print("convert")
         num = int(num)
         entry2.delete(0, len(entry2.get()))
         entry2.insert(0, num*1000)
+
+def hideWarning():
+    global warningUp
+    warning.place_forget()
+    warningUp = False
 
 def convertToKG(num):
     return num/1000
@@ -29,7 +38,8 @@ def pressEnter(event):
     print(event)
     convertToG(convertToG(entry1.get()))
 
-
+# track if warning is being shown
+warningUp = False
 
 gui_width = "600"
 gui_height = "370"
@@ -78,7 +88,7 @@ convert = tk.Button(gui, text="Convert", command=lambda:convertToG(entry1.get())
 convert.place(relx=0.5, y=float(gui_height)-120, anchor="center")
 
 
-#warning
+# warning
 warning = tk.Label(gui, text="Invalid Entry", background="#F9F7E8", font=("Helvetica", 11, "bold"), fg="#E54B4B")
 
 
